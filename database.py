@@ -44,19 +44,19 @@ class Canchas(Model):
         table_name= 'canchas'
 
 class Jugadores(Model):
-    ci_j = IntegerField(primary_key=True)
+    CIJ = IntegerField(primary_key=True)
     nombre = CharField()
-    fecha_nac = DateField()
+    Fecha_nac = DateField()
     es_golero = BooleanField()
-    id_equipo = IntegerField()
+    idE = IntegerField()
 
     class Meta:
         database = database
         table_name = 'jugadores'
 
 class Goles(Model):
-    ci_j = IntegerField()
-    id_p = IntegerField()
+    CIJ = IntegerField()
+    idP = IntegerField()
     cant_goles = IntegerField()
 
     class Meta:
