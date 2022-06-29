@@ -1,3 +1,4 @@
+from datetime import date
 from peewee import *
 
 #conexion
@@ -18,6 +19,13 @@ class Campeonato(Model):
         database= database
         table_name= 'campeonatos'
 
+class Equipos(Model):
+    idE = IntegerField(primary_key=True)
+    nombre = CharField()
+
+    class Meta:
+        database= database
+        table_name= 'equipos'
 class Arbitros(Model):
     CIA = IntegerField(primary_key=True)
     nombreA = CharField()
@@ -33,3 +41,23 @@ class Canchas(Model):
     class Meta:
         database= database
         table_name= 'canchas'
+
+class Jugadores(Model):
+    ci_j = IntegerField(primary_key=True)
+    nombre = CharField()
+    fecha_nac = DateField()
+    es_golero = BooleanField()
+    id_equipo = IntegerField(ForeignKeyField=True)
+
+    class Meta:
+        database = database
+        table_name = 'jugadores'
+
+class Goles(Model):
+    ci_j = IntegerField(ForeignKeyField=True)
+    id_p = IntegerField(ForeignKeyField=True)
+    cant_goles = IntegerField(ForeignKeyField=True)
+
+    class Meta:
+        database = database
+        table_name = 'goles'
