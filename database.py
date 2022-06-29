@@ -17,3 +17,11 @@ class Campeonato(Model):
     class Meta:
         database= database
         table_name= 'campeonatos'
+
+class Equipos(Model):
+    idE = IntegerField(primary_key=True)
+    nombre = CharField()
+
+    class Meta:
+        database= database
+        table_name= 'equipos'
