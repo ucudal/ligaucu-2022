@@ -23,7 +23,7 @@ class Campeonato(Model):
 class Jugadores(Model):
     ci_j = IntegerField(primary_key=True)
     nombre = CharField()
-    fecha_nac = date
+    fecha_nac = DateField()
     es_golero = BooleanField()
     id_equipo = IntegerField(ForeignKeyField=True)
 
