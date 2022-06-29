@@ -29,7 +29,7 @@ class Partidos(Model):
     GolesA = IntegerField()
     GolesB = IntegerField()
     IdCAN = IntegerField()
-    CIA = CharField()
+    CIA = IntegerField()
     idC = IntegerField()
 
     class Meta:
