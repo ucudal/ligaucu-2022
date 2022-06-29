@@ -21,11 +21,12 @@ class Campeonato(Model):
 
 class Equipos(Model):
     idE = IntegerField(primary_key=True)
-    nombre = CharField()
+    nombreE = CharField()
 
     class Meta:
         database= database
         table_name= 'equipos'
+
 class Arbitros(Model):
     CIA = IntegerField(primary_key=True)
     nombreA = CharField()
@@ -47,16 +48,16 @@ class Jugadores(Model):
     nombre = CharField()
     fecha_nac = DateField()
     es_golero = BooleanField()
-    id_equipo = IntegerField(ForeignKeyField=True)
+    id_equipo = IntegerField()
 
     class Meta:
         database = database
         table_name = 'jugadores'
 
 class Goles(Model):
-    ci_j = IntegerField(ForeignKeyField=True)
-    id_p = IntegerField(ForeignKeyField=True)
-    cant_goles = IntegerField(ForeignKeyField=True)
+    ci_j = IntegerField()
+    id_p = IntegerField()
+    cant_goles = IntegerField()
 
     class Meta:
         database = database

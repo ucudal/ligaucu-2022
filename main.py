@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from database import database as conexion, Campeonato
+from database import database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
+from schemas import *
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -23,3 +24,10 @@ def shutdown():
 def campeonatos():
     campeonatos = Campeonato.select().dicts()
     return list(campeonatos)
+
+@app.post('/equipos')
+def crear_equipo(equipo: EquipoRequestModel):
+    equipo = Equipos.create(
+        nombreE = equipo.nombre
+    )
+    return equipo
