@@ -62,3 +62,21 @@ class Goles(Model):
     class Meta:
         database = database
         table_name = 'goles'
+
+class Partidos(Model):
+    idC = IntegerField(primary_key=True)
+    Fecha = DateField()
+    hora = TimeField()
+    idE1 = IntegerField()
+    idE2 = IntegerField()
+    puntA = IntegerField()
+    puntB = IntegerField()
+    GolesA = IntegerField()
+    GolesB = IntegerField()
+    IdCAN = IntegerField()
+    CIA = IntegerField()
+    idC = IntegerField()
+
+    class Meta:
+        database = database
+        table_name = 'partidos'
