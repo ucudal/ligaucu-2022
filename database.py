@@ -15,8 +15,8 @@ class Campeonato(Model):
     nombreC = CharField()
 
     class Meta:
-        database= database
-        table_name= 'campeonatos'
+        database = database
+        table_name = 'campeonatos'
 
 class Partidos(Model):
     idC = IntegerField(primary_key=True)
@@ -33,5 +33,5 @@ class Partidos(Model):
     idC = IntegerField()
 
     class Meta:
-        database= database
-        table_name= 'partidos'
+        database = database
+        table_name = 'partidos'
