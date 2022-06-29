@@ -25,3 +25,18 @@ class Equipos(Model):
     class Meta:
         database= database
         table_name= 'equipos'
+class Arbitros(Model):
+    CIA = IntegerField(primary_key=True)
+    nombreA = CharField()
+
+    class Meta:
+        database= database
+        table_name= 'arbitros'
+
+class Canchas(Model):
+    idCAN = IntegerField(primary_key=True)
+    nombreCAN = CharField()
+
+    class Meta:
+        database= database
+        table_name= 'canchas'
