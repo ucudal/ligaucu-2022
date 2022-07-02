@@ -36,3 +36,8 @@ def crear_equipo(equipo: EquipoRequestModel):
 def jugadores():
     jugadores = Jugadores.select().dicts()
     return list(jugadores)
+    
+@app.get('/equipos')
+def get_equipos():
+    equipos = Equipos.select().dicts()
+    return list(equipos)
