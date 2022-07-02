@@ -64,7 +64,7 @@ class Goles(Model):
         table_name = 'goles'
 
 class Partidos(Model):
-    idC = IntegerField(primary_key=True)
+    idP = IntegerField(primary_key=True)
     Fecha = DateField()
     hora = TimeField()
     idE1 = IntegerField()
