@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from database import database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
 from schemas import *
+from fastapi.encoders import jsonable_encoder
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -36,3 +37,15 @@ def crear_equipo(equipo: EquipoRequestModel):
 def get_equipos():
     equipos = Equipos.select().dicts()
     return list(equipos)
+
+@app.delete('/equipos')
+def eliminar_equipo(id: int):
+    if(not Equipos.select().where(Equipos.idE == id)):
+        return HTTPException(404, 'Equipo {id} no existe.'.format(id))
+    Equipos.delete_by_id(id)
+    return True
+
+
+    
+    
+    
