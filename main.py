@@ -36,8 +36,30 @@ def crear_equipo(equipo: EquipoRequestModel):
 def jugadores():
     jugadores = Jugadores.select().dicts()
     return list(jugadores)
-    
+
 @app.get('/equipos')
 def get_equipos():
     equipos = Equipos.select().dicts()
     return list(equipos)
+
+@app.put('/goles')
+def modificar_goles(goles: GolesRequestModel):
+    if(not Goles.select().where(Goles.CIJ==CI)):
+        goles = Goles.create(
+            CIJ=goles.CIJ,
+            IdP=goles.IdP,
+            cant_goles=goles.cant_goles
+        )
+    goles = Goles.update(
+        CIJ=goles.CIJ,
+        IdP=goles.IdP,
+        cant_goles=goles.cant_goles
+    )
+    return
+
+@app.get('/jugadores')
+def jugador(CI:int):
+    if(not Jugador.select().where(Jugador.CIJ==CI)):
+        return HTTPException(404,'Jugador {CI} no existe'.format(CI))
+    Jugador.get_by_CI(CI)
+    return True
