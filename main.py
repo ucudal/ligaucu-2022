@@ -1,7 +1,9 @@
+from functools import partial
 from fastapi import FastAPI, HTTPException
 from database import Partidos, database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
 from schemas import *
 from fastapi.encoders import jsonable_encoder
+from peewee import fn
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -65,6 +67,20 @@ def patch_result_partido(id_partido: int, goles_equipo1: int, goles_equipo2: int
            .execute())
     return True
 
+@app.get('/golero')
+def get_golero_menos_vencido():
+   # golesA = fn.SUM(Partidos.golesA)
+   # golesB = fn.SUM(Partidos.golesB)
+    goles_en_contra = []
+    queryA = (Partidos.select(Partidos.idE2, fn.SUM(Partidos.GolesA)).group_by(Partidos.idE2).dicts())
+    queryB = (Partidos.select(Partidos.idE1, fn.SUM(Partidos.GolesB)).group_by(Partidos.idE1).dicts())
+    golesA = list(queryA)
+    golesB = list(queryB)
+    for i in range(len(golesA)):
+        goles_en_contra.append([golesA[i]["idE1"], golesA[i]["sum"]])
+    for i in range(len(golesB)):
+        goles_en_contra.append([golesA[i]["idE1"], golesA[i]["sum"]])
+    
     
     
     
