@@ -71,15 +71,11 @@ def patch_result_partido(id_partido: int, goles_equipo1: int, goles_equipo2: int
 @app.get('/golero')
 def get_golero_menos_vencido():
 
-    subquery = ((Partidos.select(Partidos.idE2.alias('id_Eq'), fn.SUM(Partidos.GolesA).alias('total_goles')).group_by(Partidos.idE2)) + (Partidos.select(Partidos.idE1.alias('id_Eq'), fn.SUM(Partidos.GolesB).alias('total_goles')).group_by(Partidos.idE1))).dicts()
-    
+    subquery = ((Partidos.select(Partidos.idE2.alias('id_Eq'), fn.SUM(Partidos.GolesA).alias('total_goles')).group_by(Partidos.idE2)) + (Partidos.select(Partidos.idE1.alias('id_Eq'), fn.SUM(Partidos.GolesB).alias('total_goles')).group_by(Partidos.idE1))).dicts() 
     goles_en_contra = sum_by_common_key(list(subquery), index_key = 'id_Eq')
-    print(goles_en_contra)
     id_eq_menos_goles = min(goles_en_contra, key=lambda x:x['total_goles'])
-    print(id_eq_menos_goles)
-
     golero = Jugadores.select(Jugadores.nombre).where((Jugadores.idE == id_eq_menos_goles['id_Eq']) & (Jugadores.es_golero == True)).dicts()
-    print(list(golero))
+
     return list(golero)
 
     
