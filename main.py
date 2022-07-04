@@ -1,33 +1,58 @@
 from fastapi import FastAPI
-from database import database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
-from schemas import *
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
 version='1.0')
 
-#eventos
-@app.on_event('startup')
-def startup():
-    if conexion.is_closed():
-        conexion.connect()
-        print('Conexion iniciada.')
-
-@app.on_event('shutdown')
-def shutdown():
-    if not conexion.is_closed():
-        conexion.close()
-        print('Conexion cerrada.')
-
 #servicios
 @app.get('/campeonatos')
 def campeonatos():
-    campeonatos = Campeonato.select().dicts()
-    return list(campeonatos)
+    return 'Campeonatos'
 
-@app.post('/equipos')
-def crear_equipo(equipo: EquipoRequestModel):
-    equipo = Equipos.create(
-        nombreE = equipo.nombre
+@app.put('/jugadores')
+def modificar_jugador(jugador: JugadorRequestModel):
+    if(not Jugador.select().where(Jugador.CIJ==CI)):
+        jugador = Jugadores.create(
+            CIJ=jugador.CIJ,
+            nombre=jugador.nombre,
+            fecha_nac=jugador.fecha_nac,
+            IdE=jugador.IdE,
+            es_golero=jugador.es_golero
+        )
+    jugador = Jugadores.update(
+        CIJ=jugador.CIJ,
+        nombre=jugador.nombre,
+        fecha_nac=jugador.fecha_nac,
+        IdE=jugador.IdE,
+        es_golero=jugador.es_golero
     )
-    return equipo
+
+@app.patch('/partidos')
+def modificar_datos(partido: PartidoRequestModel):
+    if(not partido.select().where(partido.IdP==Id)):
+       return  HTTP(404,'Partido {id} no existe')
+        
+    partido = Partidos.update(
+        IdP=partido.IdP,
+        fecha=partido.fecha,
+        hora=partido.hora,
+        IdE1=partido.IdE1,
+        IdE2=partido.IdE2,
+        puntA=partido.puntA,
+        puntB=partido.puntB,
+        GolesA=partido.GolesA,
+        GolesA=partido.GolesB,
+        IdCAN=partido.IdCAN,
+        CIA=partido.CIA,
+        idC=partido.idC
+        
+    )
+
+    
+    
+
+
+
+@app.get('/goleadores')
+def goleador(CIJ)
+    if(Jugador.select().where())
