@@ -58,7 +58,7 @@ class Goles(Model):
     CIJ = IntegerField()
     idP = IntegerField()
     cant_goles = IntegerField()
-
+    primary_key = CompositeKey("CIJ", "idP")
     class Meta:
         database = database
         table_name = 'goles'

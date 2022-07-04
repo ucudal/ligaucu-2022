@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from database import database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
 from schemas import *
 
@@ -44,22 +44,22 @@ def get_equipos():
 
 @app.put('/goles')
 def modificar_goles(goles: GolesRequestModel):
-    if(not Goles.select().where(Goles.CIJ==CI)):
-        goles = Goles.create(
-            CIJ=goles.CIJ,
-            IdP=goles.IdP,
-            cant_goles=goles.cant_goles
-        )
-    goles = Goles.update(
-        CIJ=goles.CIJ,
-        IdP=goles.IdP,
-        cant_goles=goles.cant_goles
-    )
-    return
-
-@app.get('/jugadores')
-def jugador(CI:int):
-    if(not Jugador.select().where(Jugador.CIJ==CI)):
-        return HTTPException(404,'Jugador {CI} no existe'.format(CI))
-    Jugador.get_by_CI(CI)
+    if(not Goles.select().where(Goles.CIJ==goles.CIJ)):
+        goles = Goles.create({
+            Goles.CIJ : goles.CIJ,
+            Goles.idP : goles.id_partido,
+            Goles.cant_goles : goles.cant_goles
+        })
+    goles = Goles.update({
+        Goles.CIJ : goles.CIJ,
+        Goles.idP : goles.id_partido,
+        Goles.cant_goles : goles.cant_goles
+    })
     return True
+
+#@app.get('/jugadores')
+#def jugadores(CI: int):
+#    if(not Jugadores.select().where(Jugadores.CIJ == CI)):
+#        return HTTPException(404,'Jugador {CI} no existe'.format(CI))
+#    Jugadores.get_by_CI(CI)
+#    return True
