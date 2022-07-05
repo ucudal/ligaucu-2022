@@ -63,3 +63,15 @@ def modificar_goles(goles: GolesRequestModel):
 #        return HTTPException(404,'Jugador {CI} no existe'.format(CI))
 #    Jugadores.get_by_CI(CI)
 #    return True
+
+
+
+#@app.get('/equipos_ordenados')
+#def equipos_ordenados():
+#Basado en imagen del docente:
+#for equipo en Equipos:
+#   if equipo.id = equipo1
+#       {equipo.id, punt + puntaje}
+#   if equipo.id = equipo2
+#       {equipo.id, punt + puntaje}
+#return dice ordenado por puntaje
