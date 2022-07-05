@@ -61,13 +61,6 @@ def modificar_goles(goles: GolesRequestModel):
     })
     return True
 
-#@app.get('/jugadores')
-#def jugadores(CI: int):
-#    if(not Jugadores.select().where(Jugadores.CIJ == CI)):
-#        return HTTPException(404,'Jugador {CI} no existe'.format(CI))
-#    Jugadores.get_by_CI(CI)
-#    return True
-
 
 
 #@app.get('/equipos_ordenados')
