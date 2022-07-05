@@ -92,7 +92,7 @@ def get_goleador(id_campeonato):
     print(goleadores)
     CIJ_goleador = goleadores[0]['CIJ']
 
-    nombre_goleador = Jugadores.select(Jugadores.nombre).where(Jugadores.CIJ == goleadores[0]['CIJ'])
+    nombre_goleador = Jugadores.select(Jugadores.nombre).where(Jugadores.CIJ == goleadores[0]['CIJ']).dicts()
     return list(nombre_goleador)
     
     
