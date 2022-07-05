@@ -118,7 +118,18 @@ def get_golero_menos_vencido():
 
     return list(golero)
 
-    
+@app.get('/goleador/{campeonato}')
+def get_goleador(id_campeonato):
+    partidos_camp = Partidos.select(Partidos.idP).where(Partidos.idC == id_campeonato)
+    id_partidos = list(partidos_camp)
+    #print(id_partidos)
+    query = (Goles.select(Goles.CIJ, fn.SUM(Goles.cant_goles).alias('goles')).where(Goles.idP.in_(id_partidos)).group_by(Goles.CIJ).order_by(fn.SUM(Goles.cant_goles).desc())).dicts()
+    goleadores = list(query)
+    print(goleadores)
+    CIJ_goleador = goleadores[0]['CIJ']
+
+    nombre_goleador = Jugadores.select(Jugadores.nombre).where(Jugadores.CIJ == goleadores[0]['CIJ']).dicts()
+    return list(nombre_goleador)
     
     
     
