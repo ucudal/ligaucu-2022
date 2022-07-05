@@ -1,10 +1,5 @@
-from functools import partial
-from fastapi import FastAPI, HTTPException
-from database import Partidos, database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
-from schemas import *
-from fastapi.encoders import jsonable_encoder
-from peewee import fn
-from utils import sum_by_common_key
+from fastapi import FastAPI
+import schemas
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -16,53 +11,51 @@ def campeonatos():
     return 'Campeonatos'
 
 @app.put('/jugadores')
-def modificar_jugador(jugador: JugadorRequestModel):
-    if(not Jugador.select().where(Jugador.CIJ==CI)):
+def modificar_jugador(jugador: JugadoresRequestModel):
+    if(not Jugadores.select().where(Jugadores.CIJ==CIJ)):
         jugador = Jugadores.create(
             CIJ=jugador.CIJ,
             nombre=jugador.nombre,
             fecha_nac=jugador.fecha_nac,
-            IdE=jugador.IdE,
+            id_equipo=jugador.IdE,
             es_golero=jugador.es_golero
         )
     jugador = Jugadores.update(
         CIJ=jugador.CIJ,
         nombre=jugador.nombre,
         fecha_nac=jugador.fecha_nac,
-        IdE=jugador.IdE,
+        id_equipo=jugador.IdE,
         es_golero=jugador.es_golero
     )
+    
 
 @app.patch('/partidos')
-def modificar_datos(partido: PartidoRequestModel):
-    if(not partido.select().where(partido.IdP==Id)):
-       return  HTTP(404,'Partido {id} no existe')
+def modificar_datos(partido: PartidoRequestModel,id_partido: int):
+    if(not Partidos.select().where(Partidos.IdP==id_partido)):
+       return HTTPException(404,'Partido {id_partido} no existe'.format(id_partido))
         
     partido = Partidos.update(
-        IdP=partido.IdP,
+        id_partido=partido.IdP,
         fecha=partido.fecha,
         hora=partido.hora,
-        IdE1=partido.IdE1,
-        IdE2=partido.IdE2,
-        puntA=partido.puntA,
-        puntB=partido.puntB,
-        GolesA=partido.GolesA,
-        GolesA=partido.GolesB,
-        IdCAN=partido.IdCAN,
+        punt_equipo1=partido.IdE1,
+        punt_equipo2=partido.IdE2,
+        id_equipo1=partido.puntA,
+        id_equipo2=partido.puntB,
+        goles_equipo1=partido.GolesA,
+        goles_equipo2=partido.GolesB,
+        id_cancha=partido.IdCAN,
         CIA=partido.CIA,
-        idC=partido.idC
+        id_campeonato=partido.idC
         
     )
 
+
     
     
 
 
 
-@app.get('/goleadores')
-def goleador(CIJ)
-    if(Jugador.select().where())
-    return equipo
 
 @app.get('/equipos')
 def get_equipos():
@@ -108,6 +101,5 @@ def get_golero_menos_vencido():
 
     
     
-    
-    
-    
+
+
