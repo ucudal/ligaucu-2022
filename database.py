@@ -65,7 +65,7 @@ class Goles(Model):
 
 class Partidos(Model):
     idP = IntegerField(primary_key=True)
-    Fecha = DateField()
+    fecha = DateField()
     hora = TimeField()
     idE1 = IntegerField()
     idE2 = IntegerField()

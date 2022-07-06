@@ -45,7 +45,7 @@ class GolesRequestModel(BaseModel):
 #    id_campeonato : int
 class PartidoRequestModel(BaseModel):
     fecha : date
-    hora : time
+    hora : str
     idEquipo1 : int
     idEquipo2 : int
     idCancha : int
