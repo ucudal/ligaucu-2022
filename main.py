@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from schemas import *
+from database import database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles, Partidos
+
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -13,7 +15,7 @@ def campeonatos():
 @app.put('/jugadores')
 def modificar_jugador(jugador: JugadoresRequestModel):
     if Jugadores.select().where(Jugadores.CIJ == jugador.CIJ):
-        jugadores : Jugadores.update({
+        jugadorResp : Jugadores.update({
             Jugadores.nombre:jugador.nombre,
             Jugadores.fecha_nac:jugador.fecha_nac,
             Jugadores.idE:jugador.IdE,
@@ -21,14 +23,14 @@ def modificar_jugador(jugador: JugadoresRequestModel):
         ).where(Jugadores.CIJ==jugador.CIJ).execute()
         return True
 
-    jugadores : Jugadores.create(
+    jugadorResp : Jugadores.create(
         CIJ=jugador.CIJ,
         nombre=jugador.nombre,
         fecha_nac=jugador.fecha_nac,
         idE=jugador.IdE,
         es_golero=jugador.es_golero
     )
-    return jugadores._data_
+    return jugadorResp._data_
 
     
 
