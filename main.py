@@ -21,12 +21,12 @@ def modificar_jugador(jugador: JugadoresRequestModel):
         ).where(Jugadores.CIJ==jugador.CIJ).execute()
         return True
 
-    jugadores : Jugadores.create({
-        Jugadores.CIJ:jugador.CIJ,
-        Jugadores.nombre:jugador.nombre,
-        Jugadores.fecha_nac:jugador.fecha_nac,
-        Jugadores.idE:jugador.IdE,
-        Jugadores.es_golero:jugador.es_golero}
+    jugadores : Jugadores.create(
+        CIJ=jugador.CIJ,
+        nombre=jugador.nombre,
+        fecha_nac=jugador.fecha_nac,
+        idE=jugador.IdE,
+        es_golero=jugador.es_golero
     )
     return jugadores._data_
 
