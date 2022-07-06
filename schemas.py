@@ -6,7 +6,7 @@ class EquipoRequestModel(BaseModel):
 
 class PartidoRequestModel(BaseModel):
     fecha : date
-    hora : time
+    hora : str
     idEquipo1 : int
     idEquipo2 : int
     idCancha : int

@@ -40,14 +40,14 @@ def fixture(id: int):
 
 @app.post('/partido')
 def crear_partido(partido: PartidoRequestModel):
-    partido = Partidos.create({
-        Partidos.Fecha : partido.fecha,
-        Partidos.hora : partido.hora,
-        Partidos.idE1 : partido.idEquipo1,
-        Partidos.idE2 : partido.idEquipo2,
-        Partidos.IdCAN : partido.idCancha,
-        Partidos.CIA : partido.CIArbitro,
-        Partidos.idC : partido.idCampeonato
+    partido = Partidos.create(
+        fecha = partido.fecha,
+        hora = partido.hora,
+        idE1 = partido.idEquipo1,
+        idE2 = partido.idEquipo2,
+        IdCAN = partido.idCancha,
+        CIA = partido.CIArbitro,
+        idC = partido.idCampeonato
     
-    })
+    )
     return partido
