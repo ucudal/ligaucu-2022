@@ -1,10 +1,8 @@
 from tkinter import HORIZONTAL
 from fastapi import FastAPI
-<<<<<<< Updated upstream
-=======
+
 from database import database as conexion, Partidos, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
 from schemas import *
->>>>>>> Stashed changes
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -13,9 +11,6 @@ version='1.0')
 #servicios
 @app.get('/campeonatos')
 def campeonatos():
-<<<<<<< Updated upstream
-    return 'Campeonatos'
-=======
     campeonatos = Campeonato.select().dicts()
     return list(campeonatos)
 
@@ -53,7 +48,6 @@ def crear_partido(partido: PartidoRequestModel):
         Partidos.IdCAN : partido.idCancha,
         Partidos.CIA : partido.CIArbitro,
         Partidos.idC : partido.idCampeonato
-    }
-    )
+    
+    })
     return partido
->>>>>>> Stashed changes
