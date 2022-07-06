@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import schemas
+from schemas import *
 
 #creacion de app
 app = FastAPI(title='Liga UCU', description='Liga UCU',
@@ -12,43 +12,46 @@ def campeonatos():
 
 @app.put('/jugadores')
 def modificar_jugador(jugador: JugadoresRequestModel):
-    if(not Jugadores.select().where(Jugadores.CIJ==CIJ)):
-        jugador = Jugadores.create(
-            CIJ=jugador.CIJ,
-            nombre=jugador.nombre,
-            fecha_nac=jugador.fecha_nac,
-            id_equipo=jugador.IdE,
-            es_golero=jugador.es_golero
-        )
-    jugador = Jugadores.update(
-        CIJ=jugador.CIJ,
-        nombre=jugador.nombre,
-        fecha_nac=jugador.fecha_nac,
-        id_equipo=jugador.IdE,
-        es_golero=jugador.es_golero
+    if Jugadores.select().where(Jugadores.CIJ == jugador.CIJ):
+        jugadores : Jugadores.update({
+            Jugadores.nombre:jugador.nombre,
+            Jugadores.fecha_nac:jugador.fecha_nac,
+            Jugadores.idE:jugador.IdE,
+            Jugadores.es_golero:jugador.es_golero}
+        ).where(Jugadores.CIJ==jugador.CIJ).execute()
+        return True
+
+    jugadores : Jugadores.create({
+        Jugadores.CIJ:jugador.CIJ,
+        Jugadores.nombre:jugador.nombre,
+        Jugadores.fecha_nac:jugador.fecha_nac,
+        Jugadores.idE:jugador.IdE,
+        Jugadores.es_golero:jugador.es_golero}
     )
+    return jugadores._data_
+
     
 
 @app.patch('/partidos')
-def modificar_datos(partido: PartidoRequestModel,id_partido: int):
+def modificar_datos(partido: PartidosRequestModel,id_partido: int):
     if(not Partidos.select().where(Partidos.IdP==id_partido)):
        return HTTPException(404,'Partido {id_partido} no existe'.format(id_partido))
         
-    partido = Partidos.update(
-        id_partido=partido.IdP,
-        fecha=partido.fecha,
-        hora=partido.hora,
-        punt_equipo1=partido.IdE1,
-        punt_equipo2=partido.IdE2,
-        id_equipo1=partido.puntA,
-        id_equipo2=partido.puntB,
-        goles_equipo1=partido.GolesA,
-        goles_equipo2=partido.GolesB,
-        id_cancha=partido.IdCAN,
-        CIA=partido.CIA,
-        id_campeonato=partido.idC
+    partidos = Partidos.update({
+        partidos.fecha:partido.fecha,
+        partidos.hora:partido.hora,
+        partidos.punt_equipo1:partido.IdE1,
+        partidos.punt_equipo2:partido.IdE2,
+        partidos.id_equipo1:partido.puntA,
+        partidos.id_equipo2:partido.puntB,
+        partidos.goles_equipo1:partido.GolesA,
+        partidos.goles_equipo2:partido.GolesB,
+        partidos.id_cancha:partido.IdCAN,
+        partidos.CIA:partido.CIA,
+        partidos.id_campeonato:partido.idC}
         
-    )
+    ).where(Partidos.IdP==id_partido).execute()
+    return True
 
 
     
