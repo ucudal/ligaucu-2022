@@ -15,19 +15,19 @@ def campeonatos():
 @app.put('/jugadores')
 def modificar_jugador(jugador: JugadoresRequestModel):
     if Jugadores.select().where(Jugadores.CIJ == jugador.CIJ):
-        jugadorResp : Jugadores.update({
+        jugadorResp = Jugadores.update({
             Jugadores.nombre:jugador.nombre,
             Jugadores.fecha_nac:jugador.fecha_nac,
-            Jugadores.idE:jugador.IdE,
+            Jugadores.idE:jugador.id_equipo,
             Jugadores.es_golero:jugador.es_golero}
         ).where(Jugadores.CIJ==jugador.CIJ).execute()
         return True
 
-    jugadorResp : Jugadores.create(
+    jugadorResp = Jugadores.create(
         CIJ=jugador.CIJ,
         nombre=jugador.nombre,
         fecha_nac=jugador.fecha_nac,
-        idE=jugador.IdE,
+        idE=jugador.id_equipo,
         es_golero=jugador.es_golero
     )
     return jugadorResp._data_
@@ -42,15 +42,15 @@ def modificar_datos(partido: PartidosRequestModel,id_partido: int):
     partidos = Partidos.update({
         partidos.fecha:partido.fecha,
         partidos.hora:partido.hora,
-        partidos.punt_equipo1:partido.IdE1,
-        partidos.punt_equipo2:partido.IdE2,
-        partidos.id_equipo1:partido.puntA,
-        partidos.id_equipo2:partido.puntB,
-        partidos.goles_equipo1:partido.GolesA,
-        partidos.goles_equipo2:partido.GolesB,
-        partidos.id_cancha:partido.IdCAN,
+        partidos.IdE1:partido.punt_equipo1,
+        partidos.IdE2:partido.punt_equipo2,
+        partidos.puntA:partido.id_equipo1,
+        partidos.puntB:partido.id_equipo2,
+        partidos.goles_GolesA:partido.goles_equipo1,
+        partidos.goles_GolesB:partido.goles_equipo2,
+        partidos.IdCAN:partido.id_cancha,
         partidos.CIA:partido.CIA,
-        partidos.id_campeonato:partido.idC}
+        partidos.idC:partido.id_campeonato}
         
     ).where(Partidos.IdP==id_partido).execute()
     return True
