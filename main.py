@@ -1,6 +1,4 @@
-from functools import partial
-from fastapi import FastAPI, HTTPException
-from database import Partidos, database as conexion, Campeonato, Equipos, Arbitros, Jugadores, Canchas, Goles
+from fastapi import FastAPI
 from schemas import *
 from fastapi.encoders import jsonable_encoder
 from peewee import fn
@@ -15,31 +13,60 @@ from schemas import *
 app = FastAPI(title='Liga UCU', description='Liga UCU',
 version='1.0')
 
-#eventos
-@app.on_event('startup')
-def startup():
-    if conexion.is_closed():
-        conexion.connect()
-        print('Conexion iniciada.')
-
-@app.on_event('shutdown')
-def shutdown():
-    if not conexion.is_closed():
-        conexion.close()
-        print('Conexion cerrada.')
-
 #servicios
 @app.get('/campeonatos')
 def campeonatos():
-    campeonatos = Campeonato.select().dicts()
-    return list(campeonatos)
+    return 'Campeonatos'
 
-@app.post('/equipos')
-def crear_equipo(equipo: EquipoRequestModel):
-    equipo = Equipos.create(
-        nombreE = equipo.nombre
-    )
-    return equipo
+#@app.put('/jugadores')
+#def modificar_jugador(jugador: JugadoresRequestModel):
+#    if Jugadores.select().where(Jugadores.CIJ == jugador.CIJ):
+#        jugadorResp = Jugadores.update({
+#            Jugadores.nombre:jugador.nombre,
+#            Jugadores.fecha_nac:jugador.fecha_nac,
+#            Jugadores.idE:jugador.id_equipo,
+#            Jugadores.es_golero:jugador.es_golero}
+#        ).where(Jugadores.CIJ==jugador.CIJ).execute()
+#        return True
+
+#    jugadorResp = Jugadores.create(
+#        CIJ=jugador.CIJ,
+#        nombre=jugador.nombre,
+#        fecha_nac=jugador.fecha_nac,
+#        idE=jugador.id_equipo,
+#        es_golero=jugador.es_golero
+#    )
+#    return jugadorResp._data_
+
+    
+
+@app.patch('/partidos')
+def modificar_datos(partido: PartidoRequestModel,id_partido: int):
+    if(not Partidos.select().where(Partidos.IdP==id_partido)):
+       return HTTPException(404,'Partido {id_partido} no existe'.format(id_partido))
+        
+    partidos = Partidos.update({
+        partidos.fecha:partido.fecha,
+        partidos.hora:partido.hora,
+        partidos.IdE1:partido.punt_equipo1,
+        partidos.IdE2:partido.punt_equipo2,
+        partidos.puntA:partido.id_equipo1,
+        partidos.puntB:partido.id_equipo2,
+        partidos.goles_GolesA:partido.goles_equipo1,
+        partidos.goles_GolesB:partido.goles_equipo2,
+        partidos.IdCAN:partido.id_cancha,
+        partidos.CIA:partido.CIA,
+        partidos.idC:partido.id_campeonato}
+        
+    ).where(Partidos.IdP==id_partido).execute()
+    return True
+
+
+    
+    
+
+
+
 
 @app.get('/jugadores')
 def jugadores():
@@ -128,8 +155,6 @@ def get_goleador(id_campeonato):
 
     nombre_goleador = Jugadores.select(Jugadores.nombre).where(Jugadores.CIJ == goleadores[0]['CIJ']).dicts()
     return list(nombre_goleador)
-    
-    
     
     
 @app.get('/arbitros')
